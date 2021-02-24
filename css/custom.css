@@ -1,0 +1,8 @@
+/* 用于自定义Script头像的背景颜色 */
+.script .avatar{
+    background-color: #44f;
+}
+/* 用于自定义Me头像的背景颜色 */
+.me .avatar{
+    background-color: #f33;
+}

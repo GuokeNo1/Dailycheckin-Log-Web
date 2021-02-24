@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日志群</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/custom.css">
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div class="head">
+        <div>日志群</div>
+    </div>
+    <div class="body">
+        <div v-for="(item,index) in list">
+            <div v-if="item.type=='time'" class="system_message"><div class="time">{{item.time}}</div></div>
+            <div v-if="item.type=='me'" class="me">
+                <div class="avatar">Me</div>
+                <div class="info">
+                    <!-- <div class="name">Me</div> -->
+                    <div class="massage">{{item.message}}</div>
+                </div>
+            </div>
+            <div v-if="item.type=='script'" class="script">
+                <div class="avatar">{{item.name[0]+item.name[1]}}</div>
+                <div class="info">
+                    <div class="name">{{item.name}}</div>
+                    <div class="massage">{{item.message}}</div>
+                </div>
+            </div>
+            <div v-if="item.type=='system_report'" class="script">
+                <div class="avatar">Sys</div>
+                <div class="info">
+                    <div class="name">System</div>
+                    <div class="massage">
+                        {{item.message}}
+                    </div>
+                </div>
+            </div>
+            
+            <div v-if="item.type=='select_script'" class="script">
+                <div class="avatar">Sys</div>
+                <div class="info">
+                    <div class="name">System</div>
+                    <div class="massage">
+                        <div>你选择了最近{{item.days}}天的数据,请选择日志范围</div>
+                        <div class="clicker" v-on:click="select_name(item.days,'all',index);used(index)">all</div>
+                        <div class="clicker" v-for="n in names" v-on:click="select_name(item.days,n,index);used(index)">{{n}}</div>
+                        <div v-if="item.used">[失效链接]</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div v-if="item.type=='select_days'" class="script">
+                <div class="avatar">Sys</div>
+                <div class="info">
+                    <div class="name">System</div>
+                    <div class="massage">
+                        <div>选择日志时间条件</div>
+                        <div class="clicker" v-on:click="_7Day(index);used(index)">7天</div>
+                        <div class="clicker" v-on:click="_31Day(index);used(index)">31天</div>
+                        <div v-if="item.used">[失效链接]</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="input">
+        <!-- <div><input type="text"></div> -->
+        <div class="buttons">
+            <!-- <button v-on:click="window.location.href='/old_task/'">回到旧版</button> -->
+            <button v-on:click="flashLog">刷新日志</button>
+            <button v-on:click="statisticalLog">统计日志</button>
+        </div>
+    </div>
+    <script src="./js/ui.js"></script>
+</body>
+</html>
